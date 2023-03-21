@@ -22,6 +22,6 @@ class State(BaseModel, Base):
         all_cities = fs.all(City)
 
         for key, value in all_cities.items():
-            if key == self.id:
+            if all_cities[key].__dict__["state_id"] == self.id:
                 city_list.append({key: value})
         return city_list
