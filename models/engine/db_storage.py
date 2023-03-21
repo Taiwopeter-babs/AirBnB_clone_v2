@@ -47,8 +47,8 @@ class DBStorage:
         User, State, City, Amenity, Place and Review.
         """
         all_dict = {}
-        # classes = [Amenity, City, Place, Review, State, User]
-        classes = [City, State, User, Place]
+        classes = [Amenity, City, Place, Review, State, User]
+        # classes = [City, State, User, Place]
         if cls:
             if isinstance(cls, str):
                 cls = eval(cls)
