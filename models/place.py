@@ -75,7 +75,7 @@ class Place(BaseModel, Base):
 
     @property
     def reviews(self) -> list:
-        """Returns a list of Review instances"""
+        """Returns a list of Review instances that match self.id"""
         from models import storage
 
         all_objs = storage.all()
