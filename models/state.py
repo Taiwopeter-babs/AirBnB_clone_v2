@@ -12,8 +12,7 @@ class State(BaseModel, Base):
 
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    cities = relationship("City", cascade="all, delete, delete-orphan",
-                          backref="state")
+    cities = relationship("City", cascade="all, delete, delete-orphan", backref="state")
 
     @property
     def cities(self) -> list:
@@ -23,6 +22,6 @@ class State(BaseModel, Base):
         all_cities = fs.all(City)
 
         for key, value in all_cities.items():
-            if key == self.id:
+            if all_cities[key].__dict__["state_id"] == self.id:
                 city_list.append({key: value})
         return city_list
