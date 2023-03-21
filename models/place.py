@@ -40,6 +40,8 @@ class Place(BaseModel, Base):
     reviews = relationship(
         "Review", cascade="all, delete, delete-orphan", backref="place"
     )
+     amenities = relationship("Amenity", secondary=place_amenity, viewonly=False,
+             back_populates="place_amenities")
 
     @property
     def reviews(self) -> list:
@@ -55,3 +57,14 @@ class Place(BaseModel, Base):
                 if all_objs[key].__dict__["place_id"] == self.id:
                     reviews_list.append({key, value})
         return reviews_list
+
+     @property
+     def amenities(self):
+         """ Returns list of amenity ids """
+         return self.amenity_ids
+
+       @amenities.setter
+         def amenities(self, obj=None):
+             """append method for adding an Amenity.id"""
+             if type(obj) is Amenity and obj.id not in self.amenity_ids:
+                  self.amenity_ids.append(obj.id)
