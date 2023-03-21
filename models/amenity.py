@@ -8,6 +8,6 @@ from models.place import place_amenity
 
 class Amenity(BaseModel, Base):
      """ Amenity class to map to the amenities table"""
-      __tablename__ = "amenities"
-        name = Column(String(128), nullable=False)
-         place_amenities = relationship("Place", secondary=place_amenity)
+     __tablename__ = "amenities"
+     name = Column(String(128), nullable=False)
+     place_amenities = relationship("Place", secondary=place_amenity)
