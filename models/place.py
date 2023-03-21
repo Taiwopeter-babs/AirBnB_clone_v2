@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
-from models import storage
+import shlex
 
 
 class Place(BaseModel, Base):
@@ -37,3 +37,21 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
+    reviews = relationship(
+        "Review", cascade="all, delete, delete-orphan", backref="place"
+    )
+
+    @property
+    def reviews(self) -> list:
+        """Returns a list of Review instances"""
+        from models import storage
+
+        all_objs = storage.all()
+        reviews_list = []
+        for key, value in all_objs.key():
+            review = key.replace(".", " ")
+            review = shlex.split(review)
+            if review[0] == "Review":
+                if all_objs[key].__dict__["place_id"] == self.id:
+                    reviews_list.append({key, value})
+        return reviews_list
