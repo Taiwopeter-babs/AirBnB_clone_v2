@@ -1,9 +1,33 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, ForeignKey, Float
+from sqlalchemy import Column, String, Integer, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 import shlex
+
+
+"""
+Table defining the Many-to-Many relationship between
+places and amenities
+"""
+place_amenity = Table(
+    "place_amenity",
+    Base.metadata,
+    Column(
+        "place_id",
+        String(60),
+        ForeignKey("places.id"),
+        primary_key=True,
+        nullable=False,
+    ),
+    Column(
+        "amenity_id",
+        String(60),
+        ForeignKey("amenities.id"),
+        primary_key=True,
+        nullable=False,
+    ),
+)
 
 
 class Place(BaseModel, Base):
@@ -40,6 +64,12 @@ class Place(BaseModel, Base):
     reviews = relationship(
         "Review", cascade="all, delete, delete-orphan", backref="place"
     )
+    amenities = relationship(
+        "Amenity",
+        secondary=place_amenity,
+        viewonly=False,
+        back_populates="place_amenities",
+    )
 
     @property
     def reviews(self) -> list:
@@ -55,3 +85,18 @@ class Place(BaseModel, Base):
                 if all_objs[key].__dict__["place_id"] == self.id:
                     reviews_list.append({key, value})
         return reviews_list
+
+    @property
+    def amenities(self) -> list:
+        """
+        Validates the object obj class and returns a list
+        of Amenity.id linked to Place
+        """
+        return self.amenity_ids
+
+    @amenities.setter
+    def amenities(self, obj):
+        from models.amenity import Amenity
+
+        if type(obj) is Amenity and obj.id not in self.amenity_ids:
+            self.amenity_ids.append(obj.id)
