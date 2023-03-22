@@ -47,8 +47,7 @@ class DBStorage:
         User, State, City, Amenity, Place and Review.
         """
         all_dict = {}
-        # classes = [Amenity, City, Place, Review, State, User]
-        classes = [City, State, User, Place]
+        classes = [Amenity, City, Place, Review, State, User]
         if cls:
             if isinstance(cls, str):
                 cls = eval(cls)
@@ -91,3 +90,7 @@ class DBStorage:
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """closes a session"""
+        self.__session.close()
