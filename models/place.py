@@ -69,9 +69,7 @@ class Place(BaseModel, Base):
         "Amenity",
         secondary=place_amenity,
         viewonly=False,
-        back_populates="place_amenities",
     )
-
 
     @property
     def reviews(self) -> list:
@@ -80,14 +78,13 @@ class Place(BaseModel, Base):
 
         all_objs = storage.all()
         reviews_list = []
-        for key, value in all_objs.key():
+        for key in all_objs.keys():
             review = key.replace(".", " ")
             review = shlex.split(review)
             if review[0] == "Review":
                 if all_objs[key].__dict__["place_id"] == self.id:
-                    reviews_list.append({key, value})
+                    reviews_list.append(all_objs[key])
         return reviews_list
-
 
     @property
     def amenities(self) -> list:
