@@ -62,12 +62,12 @@ class HBNBCommand(cmd.Cmd):
             _cls = pline[: pline.find(".")]
 
             # isolate and validate <command>
-            _cmd = pline[pline.find(".") + 1 : pline.find("(")]
+            _cmd = pline[pline.find(".") + 1:pline.find("(")]
             if _cmd not in HBNBCommand.dot_cmds:
                 raise Exception
 
             # if parantheses contain arguments, parse them
-            pline = pline[pline.find("(") + 1 : pline.find(")")]
+            pline = pline[pline.find("(") + 1:pline.find(")")]
             if pline:
                 # partition args: (<id>, [<delim>], [<*args>])
                 pline = pline.partition(", ")  # pline convert to tuple
@@ -130,7 +130,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         elif args:
-            all_args = args.split(" ") # all_args is a list
+            all_args = args.split(" ")  # all_args is a list
 
             if len(all_args) == 1:  # only class is given
                 if args not in HBNBCommand.classes:
@@ -152,7 +152,7 @@ class HBNBCommand(cmd.Cmd):
 
             if list_args:
                 new_dict = {}
-                formatted_dict = {}
+                format_dict = {}
                 for string in list_args:
                     key = re.search(r".+(?==)", string)
                     value = re.search(r"(?<==).+", string)
@@ -165,15 +165,15 @@ class HBNBCommand(cmd.Cmd):
                     if value.startswith('"') and value.endswith('"'):
                         stripped_val = value[1:-1]  # remove quotes
                         if "_" in value:  # replace underscores with space
-                            formatted_dict[key] = stripped_val.replace("_", " ")
+                            format_dict[key] = stripped_val.replace("_", " ")
                         else:
-                            formatted_dict[key] = stripped_val
+                            format_dict[key] = stripped_val
                     else:
                         if value.isdigit():
-                            formatted_dict[key] = int(value)
+                            format_dict[key] = int(value)
                         else:
-                            formatted_dict[key] = float(value)
-                new_instance.__dict__.update(formatted_dict)
+                            format_dict[key] = float(value)
+                new_instance.__dict__.update(format_dict)
                 new_instance.save()
                 print(new_instance.id)
 
@@ -332,7 +332,7 @@ class HBNBCommand(cmd.Cmd):
             if args and args[0] == '"':  # check for quoted arg
                 second_quote = args.find('"', 1)
                 att_name = args[1:second_quote]
-                args = args[second_quote + 1 :]
+                args = args[second_quote + 1:]
 
             args = args.partition(" ")
 
@@ -341,7 +341,7 @@ class HBNBCommand(cmd.Cmd):
                 att_name = args[0]
             # check for quoted val arg
             if args[2] and args[2][0] == '"':
-                att_val = args[2][1 : args[2].find('"', 1)]
+                att_val = args[2][1:args[2].find('"', 1)]
 
             # if att_val was not quoted arg
             if not att_val and args[2]:
