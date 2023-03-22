@@ -57,14 +57,14 @@ class TestDBStorage(unittest.TestCase):
 
         with patch("sys.stdout", new=StringIO()) as city_out:
             line = 'create City state_id={} name="Ayobo"'.format(cls_id)
-            HBNBCommand.onecmd(line)
+            HBNBCommand().onecmd(line)
 
         city_one = TestDBStorage.get_number_of_states("cities")
         self.assertEqual(city_one, 1)
 
         with patch("sys.stdout", new=StringIO()) as city_out:
             line = 'create City state_id={} name="Ikeja"'.format(cls_id)
-            HBNBCommand.onecmd(line)
+            HBNBCommand().onecmd(line)
 
         city_two = TestDBStorage.get_number_of_states("cities")
         self.assertEqual(city_two, city_one + 1)
