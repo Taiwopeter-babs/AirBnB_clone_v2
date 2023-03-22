@@ -4,6 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 import shlex
+import os
 
 
 """
@@ -61,41 +62,48 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
-    reviews = relationship(
-        "Review", cascade="all, delete, delete-orphan", backref="place"
-    )
 
-    amenities = relationship(
-        "Amenity", secondary=place_amenity, viewonly=False, backref="place"
-    )
+    if os.getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship(
+            "Review", cascade="all, delete, delete-orphan", backref="place"
+        )
 
-    @property
-    def reviews(self) -> list:
-        """Returns a list of Review instances that match self.id"""
-        from models import storage
+        amenities = relationship(
+            "Amenity",
+            secondary=place_amenity,
+            viewonly=False,
+            back_populates="place_amenities",
+        )
 
-        all_objs = storage.all()
-        reviews_list = []
-        for key in all_objs.keys():
-            review = key.replace(".", " ")
-            review = shlex.split(review)
-            if review[0] == "Review":
-                if all_objs[key].__dict__["place_id"] == self.id:
-                    reviews_list.append(all_objs[key])
-        return reviews_list
+    else:
 
-    @property
-    def amenities(self) -> list:
-        """
-        Validates the object obj class and returns a list
-        of Amenity.id linked to Place
-        """
-        return self.amenity_ids
+        @property
+        def reviews(self) -> list:
+            """Returns a list of Review instances that match self.id"""
+            from models import storage
 
-    @amenities.setter
-    def amenities(self, obj=None):
-        from models.amenity import Amenity
+            all_objs = storage.all()
+            reviews_list = []
+            for key in all_objs.keys():
+                review = key.replace(".", " ")
+                review = shlex.split(review)
+                if review[0] == "Review":
+                    if all_objs[key].__dict__["place_id"] == self.id:
+                        reviews_list.append(all_objs[key])
+            return reviews_list
 
-        if obj:
-            if type(obj) is Amenity and obj.id not in self.amenity_ids:
-                self.amenity_ids.append(obj.id)
+        @property
+        def amenities(self) -> list:
+            """
+            Validates the object obj class and returns a list
+            of Amenity.id linked to Place
+            """
+            return self.amenity_ids
+
+        @amenities.setter
+        def amenities(self, obj=None):
+            from models.amenity import Amenity
+
+            if obj:
+                if type(obj) is Amenity and obj.id not in self.amenity_ids:
+                    self.amenity_ids.append(obj.id)
