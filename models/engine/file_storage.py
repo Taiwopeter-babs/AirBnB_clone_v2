@@ -15,6 +15,8 @@ class FileStorage:
         """
         if cls:
             cls_dict = {}
+            if isinstance(cls, str):
+                cls = eval(cls)
             cls_name = cls.__name__
             all_objs = FileStorage.__objects
             for key, val in all_objs.items():
