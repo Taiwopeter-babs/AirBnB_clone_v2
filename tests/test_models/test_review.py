@@ -2,10 +2,12 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.review import Review
+from models.place import Place
+from models.user import User
 
 
 class test_review(test_basemodel):
-    """ """
+    """Test review class"""
 
     def __init__(self, *args, **kwargs):
         """ """
@@ -15,15 +17,18 @@ class test_review(test_basemodel):
 
     def test_place_id(self):
         """ """
-        new = self.value()
+        place = Place()
+        new = self.value(place_id=place.id)
         self.assertEqual(type(new.place_id), str)
 
     def test_user_id(self):
-        """ """
-        new = self.value()
+        """test user_id"""
+        user = User()
+        new = self.value(user_id=user.id)
         self.assertEqual(type(new.user_id), str)
 
     def test_text(self):
-        """ """
-        new = self.value()
+        """test text"""
+        new = self.value(text="Lovely place. 5 stars")
+        self.assertIsNotNone(new.text)
         self.assertEqual(type(new.text), str)

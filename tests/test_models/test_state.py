@@ -5,7 +5,7 @@ from models.state import State
 
 
 class test_state(test_basemodel):
-    """ """
+    """Test state class"""
 
     def __init__(self, *args, **kwargs):
         """ """
@@ -14,6 +14,9 @@ class test_state(test_basemodel):
         self.value = State
 
     def test_name3(self):
-        """ """
-        new = self.value()
+        """test state name"""
+        new = self.value(name="Ondo")
+        self.assertIsNotNone(new.name)
+        self.assertIsNotNone(new.id)
         self.assertEqual(type(new.name), str)
+        self.assertEqual(type(new.id), str)
