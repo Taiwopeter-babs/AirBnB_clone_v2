@@ -7,8 +7,9 @@ from fabric.api import *
 from datetime import datetime
 import os
 
-env.user = "ubuntu"
+
 env.hosts = ["18.235.234.96", "52.87.216.23"]
+env.user = "ubuntu"
 
 
 def do_pack():
