@@ -2,6 +2,8 @@
 # This script configures a Nginx server to create directories
 #+ and files to serve static content
 
+sudo apt-get -y update
+sudo apt-get -y install nginx
 # creates the directories if they don't exist
 sudo mkdir -p /data/web_static/{releases/"test",shared}
 
@@ -24,9 +26,7 @@ sudo ln -s /data/web_static/releases/"test" /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data
 
 # configure location block to serve content requested from a URI
-sudo sed -i "59i \\\tlocation \/hbnb_static {" /etc/nginx/sites-available/default
-sudo sed -i "60i \\\t\talias /data/web_static/current/;" /etc/nginx/sites-available/default
-sudo sed -i "61i \\\t}" /etc/nginx/sites-available/default
+sudo sed -i "40i \\\tlocation \/hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n" /etc/nginx/sites-enabled/default
 
 # restart the server
 sudo service nginx restart
