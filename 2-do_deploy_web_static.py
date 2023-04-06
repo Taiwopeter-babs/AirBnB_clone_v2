@@ -10,8 +10,10 @@ import os
 
 env.hosts = ["18.235.234.96", "52.87.216.23"]
 env.user = "ubuntu"
+env.key_filename = "~/.ssh/id_rsa"
 
 
+@runs_once
 def do_pack():
     """This functions compresses a folder"""
 
@@ -28,7 +30,7 @@ def do_pack():
     tar_command = "tar -cvzf {} {}".format(compressed_file, to_compress)
     out_result = local(tar_command)
 
-    if out_result.return_code == 0:
+    if not out_result.failed:
         out_dir = "{}".format(compressed_file)
         return out_dir
 
