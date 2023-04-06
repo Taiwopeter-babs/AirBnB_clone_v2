@@ -13,7 +13,7 @@ env.hosts = ["18.235.234.96", "52.87.216.23"]
 env.key_filename = "~/.ssh/id_rsa"
 
 
-def do_pack() -> str:
+def do_pack():
     """This functions compresses a folder"""
 
     local("mkdir -p versions")
