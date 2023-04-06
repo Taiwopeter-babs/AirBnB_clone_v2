@@ -36,7 +36,7 @@ def do_pack() -> str:
     return None
 
 
-def do_deploy(archive_path) -> bool:
+def do_deploy(archive_path):
     """This function deploys the compressed file to remote servers"""
     archive_file = archive_path.split("/")[1]
     archive_folder = archive_path.split("/")[1].split(".")[0]
@@ -62,6 +62,15 @@ def do_deploy(archive_path) -> bool:
     result = run(uncompress)
     if result.failed:
         return False
+
+    # move the uncompressed files into the web_static_date directory
+    move = f"sudo mv {new_release_dir}/web_static/* {new_release_dir}"
+    result = run(move)
+    if result.failed:
+        return False
+
+    # delete the empty folder
+    run(f"sudo rm -rf {new_release_dir}/web_static")
 
     # delete the compressed file
     delete = "sudo rm /tmp/{}".format(archive_file)
