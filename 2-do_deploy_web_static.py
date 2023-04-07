@@ -38,7 +38,10 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """This function deploys the compressed file to remote servers"""
+    """
+    This function deploys the compressed file to remote servers
+    and processes them
+    """
 
     archive_file = archive_path.split("/")[1]
     archive_folder = archive_path.split("/")[1].split(".")[0]
