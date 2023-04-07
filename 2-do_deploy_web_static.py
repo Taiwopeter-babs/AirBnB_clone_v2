@@ -43,6 +43,11 @@ def do_deploy(archive_path):
     """
         This function deploys the compressed file to remote servers
         and processes them
+        
+        Args:
+            archive_path(str): path to the archive file to be deployed
+        Returns:
+            True if the deployment succeeds, otherwise False
     """
 
     archive_file = archive_path.split("/")[1]
