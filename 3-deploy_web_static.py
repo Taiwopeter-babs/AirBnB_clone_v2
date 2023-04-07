@@ -9,6 +9,7 @@ import os
 
 env.user = "ubuntu"
 env.hosts = ["18.235.234.96", "52.87.216.23"]
+env.key_filename = "~/.ssh/id_rsa"
 
 
 @runs_once
