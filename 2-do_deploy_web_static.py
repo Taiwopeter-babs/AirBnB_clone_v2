@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
-This module contains a function that compresses a folder (web_static)
-into .tgz format for deployment to Nginx servers
+    This module contains a function that compresses a folder (web_static)
+    into .tgz format for deployment to Nginx servers
 """
 from fabric.api import *
 from datetime import datetime
@@ -15,7 +15,9 @@ env.key_filename = "~/.ssh/id_rsa"
 
 @runs_once
 def do_pack():
-    """This function compresses a folder"""
+    """
+        This function compresses a folder
+    """
 
     local("mkdir -p versions")
 
@@ -39,8 +41,8 @@ def do_pack():
 
 def do_deploy(archive_path):
     """
-    This function deploys the compressed file to remote servers
-    and processes them
+        This function deploys the compressed file to remote servers
+        and processes them
     """
 
     archive_file = archive_path.split("/")[1]
