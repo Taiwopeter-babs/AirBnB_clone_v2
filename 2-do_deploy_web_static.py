@@ -15,7 +15,7 @@ env.key_filename = "~/.ssh/id_rsa"
 
 @runs_once
 def do_pack():
-    """This functions compresses a folder"""
+    """This function compresses a folder"""
 
     local("mkdir -p versions")
 
@@ -39,6 +39,7 @@ def do_pack():
 
 def do_deploy(archive_path):
     """This function deploys the compressed file to remote servers"""
+
     archive_file = archive_path.split("/")[1]
     archive_folder = archive_path.split("/")[1].split(".")[0]
     new_release_dir = f"/data/web_static/releases/{archive_folder}"
