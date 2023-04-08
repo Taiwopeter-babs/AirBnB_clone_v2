@@ -109,7 +109,7 @@ def do_clean(number=0):
     """
     This function deletes the outdated releases of archives
     in the web servers and keeps only the latest number of releases
-    as specified by numbers
+    as specified by number
     """
     number = int(number)
     if number == 0:
@@ -132,6 +132,7 @@ def do_clean(number=0):
 
 @runs_once
 def local_task(dir, number):
+    """Runs the local task once"""
 
     local_cmd = (
         "find {} -maxdepth 1 -type f | sort -r | xargs | cut -d ' ' -f{}- | xargs rm"
