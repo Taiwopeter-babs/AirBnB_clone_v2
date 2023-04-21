@@ -9,14 +9,6 @@ from flask import Flask, render_template
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-@app.route("/states_list")
-def all_states_obj():
-    """This endpoint returns all State objects"""
-    states_obj = storage.all("State")
-    states = []
-    for state in states_obj.keys():
-        states.append(states_obj[state])
-    return render_template("7-states_list.html", states=states)
 
 @app.route("/cities_by_states")
 def all_cities_by_states():
