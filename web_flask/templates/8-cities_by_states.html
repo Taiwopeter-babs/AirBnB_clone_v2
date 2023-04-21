@@ -5,19 +5,21 @@
     <TITLE>HBNB</TITLE>
 </HEAD>
 
-<BODY>
-    <H1>States</H1>
-    <UL>
-        {% for state in states|sort(attribute="name") %}
-        <LI>{{ state.id }}: <B>{{ state.name|e }}</B>
-            <UL>
-                {% for city in state.cities|sort(attribute="name") %}
-                <LI>{{ city.id }}: <B>{{ city.name|e }}</B></LI>
-                {% endfor %}
-            </UL>
-        </LI>
-        {% endfor %}
-    </UL>
-</BODY>
+	<BODY>
+	    <H1>States</H1>
+	    <UL>
+		{% for state in states|sort(attribute="name") %}
+		<LI>{{ state.id }}: <B>{{ state.name|e }}</B>
+		    <UL>
+			{% for city in cities|sort(attribute="name") %}
+				{% if city.state_id == state.id %}
+					<LI>{{ city.id }}: <B>{{ city.name|e }}</B></LI>
+				{% endif %}
+			{% endfor %}
+		    </UL>
+		</LI>
+		{% endfor %}
+	    </UL>
+	</BODY>
 
 </HTML>
