@@ -8,8 +8,9 @@
 }
 
 .locations {
-	display: inline;
-	vertical-align: middle;
+	display: block;
+	position: relative;
+	/* vertical-align: middle; */
 	float: left;
 	height: 100%;
 	width: 25%;
@@ -31,6 +32,7 @@
 .popover {
 	list-style-type: none;
 	display: none;
+	position: relative;
 	background-color: #FAFAFA;
 	width: 100%;
 
@@ -43,10 +45,11 @@
 	max-height: 300px;
 	overflow: hidden;
 	overflow-y: auto;
+	z-index: 1;
 }
 
 .locations:hover .popover {
-	display: inline-block;
+	display: block;
 }
 
 .amenities:hover .popover {
@@ -59,7 +62,6 @@ ul {
 	padding-bottom: 20px;
 }
 
-li {}
 
 h2 {
 	font-size: 16px;

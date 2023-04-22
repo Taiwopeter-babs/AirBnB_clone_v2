@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="../static/styles/3-header.css" />
 	<link rel="stylesheet" href="../static/styles/3-footer.css" />
 	<link rel="stylesheet" href="../static/styles/6-filters.css" />
+	<link rel="stylesheet" href="../static/styles/8-places.css" />
 </head>
 
 <body>
@@ -25,12 +26,12 @@
 				<ul class="popover">
 					{% for state in states | sort(attribute="name") %}
 					<li>
-						<h2>{{ state.name|e }}</h2>
+						<h2>{{ state.name }}</h2>
 						<ul>
 							{% for city in cities | sort(attribute="name") %}
 							{% if city.state_id == state.id %}
 							<li>
-								<h4>{{ city.name|e }}</h4>
+								<h4>{{ city.name }}</h4>
 							</li>
 							{% endif %}
 							{% endfor %}
@@ -50,8 +51,39 @@
 					{% endfor %}
 				</ul>
 			</div>
-
 		</section>
+
+		<!-- SECTION FOR THE PLACES -->
+		<section class="places">
+			<h1>Places</h1>
+			{% for place in places | sort(attribute="name") %}
+			<article>
+				<div class="headline">
+					<div class="place_name">
+						<h2>{{ place.name }}</h2>
+					</div>
+					<div class="price_by_night">${{ place.price_by_night }}</div>
+				</div>
+				<div class="information">
+					<div class="max_guest">
+						<div class="guest_icon"></div>
+						<p>{{ place.max_guest }} Guests</p>
+					</div>
+					<div class="number_rooms">
+						<div class="bed_icon"></div>
+						<p>{{ place.number_rooms }} Bedroom</p>
+					</div>
+					<div class="number_bathrooms">
+						<div class="bath_icon"></div>
+						<p>{{ place.number_bathrooms }} Bathroom</p>
+					</div>
+				</div>
+				<div class="user"><b>Owner</b>: {{ place.user.first_name|e }} {{ place.user.last_name|e }} </div>
+				<div class="description">{{ place.description|safe }}</div>
+			</article>
+			{% endfor %}
+		</section>
+		<!-- END OF PLACES -->
 	</div>
 	<footer>
 		<p>Holberton School</p>
