@@ -36,13 +36,13 @@ def python_text(text="is_cool"):
     return "Python {}".format(text)
 
 
-@app.route("/number/<int: n>")
+@app.route("/number/<int:n>")
 def is_number(n):
     """returns a number in a URL"""
     return "{} is a number".format(n)
 
 
-@app.route("/number_template/<int: n>")
+@app.route("/number_template/<int:n>")
 def first_template(n):
     """renders a template only if n is an integer instance"""
     return render_template("5-number.html", n=n)
