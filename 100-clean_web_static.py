@@ -121,7 +121,7 @@ def do_clean(number=0):
     local_dir = "versions/*.tgz"
     remote_dir = "/data/web_static/releases/*"
 
-    if not local_task(local_dir, number):
+    if local_task(local_dir, number) is False:
         return False
 
     # remote process
