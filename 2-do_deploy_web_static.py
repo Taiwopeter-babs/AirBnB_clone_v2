@@ -49,7 +49,7 @@ def do_deploy(archive_path):
 
     archive_file = archive_path.split("/")[1]
     archive_folder = archive_path.split("/")[1].split(".")[0]
-    new_release_dir = f"/data/web_static/releases/{archive_folder}"
+    new_release_dir = "/data/web_static/releases/{}".format(archive_folder)
 
     # check if archive path is available
     if not os.path.exists(archive_path):
@@ -61,25 +61,27 @@ def do_deploy(archive_path):
         return False
 
     # create a directory to which to save the uncompressed files
-    create_dir = f"sudo mkdir -p {new_release_dir}"
+    create_dir = "sudo mkdir -p {}".format(new_release_dir)
     res = run(create_dir)
     if res.failed:
         return False
 
     # uncompress the archive file to the new_release directory
-    uncompress = f"sudo tar -xzf /tmp/{archive_file} -C {new_release_dir}"
+    uncompress = "sudo tar -xzf /tmp/{} -C {}".format(archive_file,
+                                                      new_release_dir)
     result = run(uncompress)
     if result.failed:
         return False
 
     # move the uncompressed files into the web_static_date directory
-    move = f"sudo mv {new_release_dir}/web_static/* {new_release_dir}"
+    move = "sudo mv {}/web_static/* {}".format(new_release_dir,
+                                               new_release_dir)
     result = run(move)
     if result.failed:
         return False
 
     # delete the empty folder
-    run(f"sudo rm -rf {new_release_dir}/web_static")
+    run("sudo rm -rf {}/web_static".format(new_release_dir))
 
     # delete the compressed file
     delete = "sudo rm /tmp/{}".format(archive_file)
