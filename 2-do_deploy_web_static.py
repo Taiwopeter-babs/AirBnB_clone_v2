@@ -38,8 +38,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """
-    This function deploys the compressed file to remote servers
+    """This function deploys the compressed file to remote servers
     and processes them
 
     Args:
