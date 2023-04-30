@@ -49,7 +49,7 @@ def do_deploy(archive_path):
 
     archive_file = archive_path.split("/")[1]
     archive_folder = archive_path.split("/")[1].split(".")[0]
-    new_release_dir = "/data/web_static/releases/{}".format(archive_folder)
+    new_release = "/data/web_static/releases/{}".format(archive_folder)
 
     # check if archive path is available
     if not os.path.exists(archive_path):
@@ -61,27 +61,27 @@ def do_deploy(archive_path):
         return False
 
     # create a directory to which to save the uncompressed files
-    create_dir = "sudo mkdir -p {}".format(new_release_dir)
+    create_dir = "sudo mkdir -p {}".format(new_release)
     res = run(create_dir)
     if res.failed:
         return False
 
     # uncompress the archive file to the new_release directory
     uncompress = "sudo tar -xzf /tmp/{} -C {}".format(archive_file,
-                                                      new_release_dir)
+                                                      new_release)
     result = run(uncompress)
     if result.failed:
         return False
 
     # move the uncompressed files into the web_static_date directory
-    move = "sudo mv {}/web_static/* {}".format(new_release_dir,
-                                               new_release_dir)
+    move = "sudo mv {}/web_static/* {}".format(new_release,
+                                               new_release)
     result = run(move)
     if result.failed:
         return False
 
     # delete the empty folder
-    run("sudo rm -rf {}/web_static".format(new_release_dir))
+    run("sudo rm -rf {}/web_static".format(new_release))
 
     # delete the compressed file
     delete = "sudo rm /tmp/{}".format(archive_file)
@@ -95,7 +95,7 @@ def do_deploy(archive_path):
         return False
 
     # create a new symbolic link
-    create_link = f"sudo ln -s {new_release_dir} /data/web_static/current"
+    create_link = "sudo ln -s {} /data/web_static/current".format(new_release)
     result = run(create_link)
     if result.failed:
         return False
